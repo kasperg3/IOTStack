@@ -28,7 +28,7 @@ services:
   
   telegraf:
     container_name: telegraf
-    image: telegraf:1.18-alpine
+    image: telegraf:latest
     volumes:
     - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf
     depends_on:
@@ -40,7 +40,7 @@ services:
 
   influxdb:
     container_name: influxdb
-    image: influxdb:alpine
+    image: influxdb:2.0.8-alpine
     env_file: configuration.env
     ports:
       - '127.0.0.1:8086:8086'
@@ -95,7 +95,7 @@ services:
 
   mosquitto:
     container_name: mosquitto
-    image: eclipse-mosquitto
+    image: eclipse-mosquitto:latest
     ports:
       - 1883:1883
       - 8883:8883
