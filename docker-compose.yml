@@ -36,16 +36,17 @@ services:
     volumes:
       - node-red-data:/data
 
-  mosquitto:
+ mosquitto:
+    image: eclipse-mosquitto:2.0.7
     container_name: mosquitto
-    image: eclipse-mosquitto:latest
     ports:
-      - '1883:1883'
+      - 9001:9001
+      - 1883:1883
     volumes:
       - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log
-    restart: unless-stopped
+
 
   influxdb:
     container_name: influxdb
