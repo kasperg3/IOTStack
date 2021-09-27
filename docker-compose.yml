@@ -40,7 +40,7 @@ services:
 
   influxdb:
     container_name: influxdb
-    image: influxdb:2.0.8-alpine
+    image: influxdb:1.8.9
     env_file: configuration.env
     ports:
       - '127.0.0.1:8086:8086'
