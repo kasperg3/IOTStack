@@ -1,5 +1,5 @@
 ---
-version: "0.1"
+version: '0.1'
 services:
   wireguard:
     image: ghcr.io/linuxserver/wireguard
@@ -27,6 +27,7 @@ services:
     restart: unless-stopped
   
   telegraf:
+    container_name: telegraf
     image: telegraf:1.18-alpine
     volumes:
     - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf
@@ -38,6 +39,7 @@ services:
     - '127.0.0.1:8125:8125/udp'
 
   influxdb:
+    container_name: influxdb
     image: influxdb:alpine
     env_file: configuration.env
     ports:
@@ -47,6 +49,7 @@ services:
       - influxdb-storage:/var/lib/influxdb
 
   grafana:
+    container_name: grafana
     image: grafana/grafana:latest
     depends_on:
       - influxdb
@@ -60,27 +63,28 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/dashboards/:/var/lib/grafana/dashboards/
 
-  influxdb_cli:
-    links:
-      - influxdb
-    image: influxdb:2.0.7
-    volumes:
-      # Mount for influxdb data directory and configuration
-      - influxdb-storage:/var/lib/influxdb2
-    environment: 
-       # Use these same configurations parameters in your telegraf configuration, mytelegraf.conf.
-      - DOCKER_INFLUXDB_INIT_MODE=setup
-      - DOCKER_INFLUXDB_INIT_USERNAME=myusername
-      - DOCKER_INFLUXDB_INIT_PASSWORD=passwordpasswordpassword
-      - DOCKER_INFLUXDB_INIT_ORG=myorg
-      - DOCKER_INFLUXDB_INIT_BUCKET=mybucket
-      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=mytoken
-    entrypoint: ["./entrypoint.sh"]
-    restart: on-failure:10
-    depends_on:
-      - influxdb
+  # influxdb_cli:
+  #   links:
+  #     - influxdb
+  #   image: influxdb:2.0.7
+  #   volumes:
+  #     # Mount for influxdb data directory and configuration
+  #     - influxdb-storage:/var/lib/influxdb2
+  #   environment: 
+  #      # Use these same configurations parameters in your telegraf configuration, mytelegraf.conf.
+  #     - DOCKER_INFLUXDB_INIT_MODE=setup
+  #     - DOCKER_INFLUXDB_INIT_USERNAME=myusername
+  #     - DOCKER_INFLUXDB_INIT_PASSWORD=passwordpasswordpassword
+  #     - DOCKER_INFLUXDB_INIT_ORG=myorg
+  #     - DOCKER_INFLUXDB_INIT_BUCKET=mybucket
+  #     - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=mytoken
+  #   entrypoint: ["./entrypoint.sh"]
+  #   restart: on-failure:10
+  #   depends_on:
+  #     - influxdb
       
   node-red:
+    container_name: node-red
     image: nodered/node-red:latest-minimal
     environment:
       - TZ=Europe/Amsterdam
@@ -90,6 +94,7 @@ services:
       - node-red-data:/data
 
   mosquitto:
+    container_name: mosquitto
     image: eclipse-mosquitto
     ports:
       - 1883:1883
