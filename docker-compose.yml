@@ -21,7 +21,7 @@ services:
       - wireguard-storage:/config
       - /lib/modules:/lib/modules
     ports:
-      - 51820:51820/udp
+      - '51820:51820/udp'
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
@@ -36,14 +36,14 @@ services:
     links:
       - influxdb
     ports:
-    - 8125:8125/udp
+    - '8125:8125/udp'
 
   influxdb:
     container_name: influxdb
     image: influxdb:1.8.9
     env_file: configuration.env
     ports:
-      - 8086:8086
+      - '8086:8086'
     volumes:
       - ./:/imports
       - influxdb-storage:/var/lib/influxdb
@@ -57,7 +57,7 @@ services:
     links:
       - influxdb
     ports:
-      - 3000:3000
+      - '3000:3000'
     volumes:
       - grafana-storage:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
@@ -89,7 +89,7 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     ports:
-      - 1880:1880
+      - '1880:1880'
     volumes:
       - node-red-data:/data
 
@@ -97,8 +97,8 @@ services:
     container_name: mosquitto
     image: eclipse-mosquitto:latest
     ports:
-      - 1883:1883
-      - 8883:8883
+      - '1883:1883'
+      - '8883:8883'
     volumes:
       - mosquitto-data:/mosquitto/data
       - mosquitto-logs:/mosquitto/logs
