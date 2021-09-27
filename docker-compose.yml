@@ -25,6 +25,41 @@ services:
     sysctls:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
+
+      
+  node-red:
+    container_name: node-red
+    image: nodered/node-red:latest-minimal
+    environment:
+      - TZ=Europe/Amsterdam
+    ports:
+      - '1880:1880'
+    volumes:
+      - node-red-data:/data
+
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto:latest
+    ports:
+      - '1883:1883'
+      - '8883:8883'
+    volumes:
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-logs:/mosquitto/logs
+      - mosquitto-conf:/mosquitto/config
+    restart: unless-stopped
+
+
+  influxdb:
+    container_name: influxdb
+    image: influxdb:1.8.9
+    env_file: configuration.env
+    ports:
+      - '8086:8086'
+    volumes:
+      - ./:/imports
+      - influxdb-storage:/var/lib/influxdb
+
   
   telegraf:
     container_name: telegraf
@@ -37,16 +72,6 @@ services:
       - influxdb
     ports:
     - '127.0.0.1:8125:8125/udp'
-
-  influxdb:
-    container_name: influxdb
-    image: influxdb:1.8.9
-    env_file: configuration.env
-    ports:
-      - '8086:8086'
-    volumes:
-      - ./:/imports
-      - influxdb-storage:/var/lib/influxdb
 
   grafana:
     container_name: grafana
@@ -82,28 +107,6 @@ services:
   #   restart: on-failure:10
   #   depends_on:
   #     - influxdb
-      
-  node-red:
-    container_name: node-red
-    image: nodered/node-red:latest-minimal
-    environment:
-      - TZ=Europe/Amsterdam
-    ports:
-      - '1880:1880'
-    volumes:
-      - node-red-data:/data
-
-  mosquitto:
-    container_name: mosquitto
-    image: eclipse-mosquitto:latest
-    ports:
-      - '1883:1883'
-      - '8883:8883'
-    volumes:
-      - mosquitto-data:/mosquitto/data
-      - mosquitto-logs:/mosquitto/logs
-      - mosquitto-conf:/mosquitto/config
-    restart: unless-stopped
 
   # portainer:
   #   container_name: portainer
