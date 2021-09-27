@@ -38,7 +38,7 @@ services:
     - '127.0.0.1:8125:8125/udp'
 
   influxdb:
-    image: influxdb:1.8-alpine
+    image: influxdb:alpine
     env_file: configuration.env
     ports:
       - '127.0.0.1:8086:8086'
@@ -47,7 +47,7 @@ services:
       - influxdb-storage:/var/lib/influxdb
 
   grafana:
-    image: grafana/grafana:8.0.2
+    image: grafana/grafana:latest
     depends_on:
       - influxdb
     env_file: configuration.env
@@ -81,16 +81,30 @@ services:
       - influxdb
       
   node-red:
-    image: nodered/node-red:latest
+    image: nodered/node-red:latest-minimal
     environment:
       - TZ=Europe/Amsterdam
     ports:
       - "1880:1880"
     volumes:
       - node-red-data:/data
-        
+
+  mosquitto:
+    image: eclipse-mosquitto
+    ports:
+      - 1883:1883
+      - 8883:8883
+    volumes:
+      - mosquitto-data:/mosquitto/data
+      - mosquitto-logs:/mosquitto/logs
+      - mosquitto-conf:/mosquitto/config
+    restart: unless-stopped
+
 volumes:
   node-red-data:
   influxdb-storage:
   grafana-storage:
   wireguard-storage:
+  mosquitto-data:
+  mosquitto-logs:
+  mosquitto-conf:
