@@ -26,7 +26,6 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
     restart: unless-stopped
 
-      
   node-red:
     container_name: node-red
     image: nodered/node-red:latest-minimal
@@ -43,12 +42,10 @@ services:
     ports:
       - '1883:1883'
     volumes:
-      - mosquitto-data:/mosquitto/data
-      - mosquitto-logs:/mosquitto/logs
-      - ./mosquitto/config/mosquitto.conf:/mosquitto/config
+      - ./mosquitto/config/mosquitto.conf:/mosquitto/config/mosquitto.conf
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
     restart: unless-stopped
-    
-
 
   influxdb:
     container_name: influxdb
