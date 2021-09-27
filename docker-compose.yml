@@ -3,7 +3,7 @@ version: '3.7'
 services:
   wireguard:
     image: ghcr.io/linuxserver/wireguard
-    name: wireguard
+    container_name: wireguard
     cap_add:
       - NET_ADMIN
       - SYS_MODULE
@@ -28,7 +28,7 @@ services:
 
       
   node-red:
-    name: node-red
+    container_name: node-red
     image: nodered/node-red:latest-minimal
     environment:
       - TZ=Europe/Amsterdam
@@ -38,7 +38,7 @@ services:
       - node-red-data:/data
 
   mosquitto:
-    name: mosquitto
+    container_name: mosquitto
     image: eclipse-mosquitto:latest
     ports:
       - '1883:1883'
@@ -51,7 +51,7 @@ services:
 
 
   influxdb:
-    name: influxdb
+    container_name: influxdb
     image: influxdb:1.8.9
     env_file: configuration.env
     ports:
@@ -62,7 +62,7 @@ services:
 
   
   telegraf:
-    name: telegraf
+    container_name: telegraf
     image: telegraf:1.20.0
     volumes:
     - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
@@ -76,7 +76,7 @@ services:
     - '8125:8125/udp'
 
   grafana:
-    name: grafana
+    container_name: grafana
     image: grafana/grafana:latest
     depends_on:
       - influxdb
@@ -111,7 +111,7 @@ services:
   #     - influxdb
 
   # portainer:
-  #   name: portainer
+  #   container_name: portainer
   #   image: portainer/portainer:alpine
   #   ports:
   #     - '1888:1888'
