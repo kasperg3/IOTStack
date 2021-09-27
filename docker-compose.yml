@@ -36,14 +36,14 @@ services:
     links:
       - influxdb
     ports:
-    - '127.0.0.1:8125:8125/udp'
+    - 8125:8125/udp
 
   influxdb:
     container_name: influxdb
     image: influxdb:1.8.9
     env_file: configuration.env
     ports:
-      - '127.0.0.1:8086:8086'
+      - 8086:8086
     volumes:
       - ./:/imports
       - influxdb-storage:/var/lib/influxdb
@@ -57,7 +57,7 @@ services:
     links:
       - influxdb
     ports:
-      - '127.0.0.1:3000:3000'
+      - 3000:3000
     volumes:
       - grafana-storage:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
@@ -89,7 +89,7 @@ services:
     environment:
       - TZ=Europe/Amsterdam
     ports:
-      - "1880:1880"
+      - 1880:1880
     volumes:
       - node-red-data:/data
 
@@ -104,6 +104,13 @@ services:
       - mosquitto-logs:/mosquitto/logs
       - mosquitto-conf:/mosquitto/config
     restart: unless-stopped
+
+  portainer:
+    container_name: portainer
+    image: portainer/portainer:alpine
+    ports:
+      - 
+
 
 volumes:
   node-red-data:
