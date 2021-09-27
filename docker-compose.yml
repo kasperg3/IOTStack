@@ -105,11 +105,11 @@ services:
       - mosquitto-conf:/mosquitto/config
     restart: unless-stopped
 
-  portainer:
-    container_name: portainer
-    image: portainer/portainer:alpine
-    ports:
-      - 
+  # portainer:
+  #   container_name: portainer
+  #   image: portainer/portainer:alpine
+  #   ports:
+  #     - '1888:1888'
 
 
 volumes:
