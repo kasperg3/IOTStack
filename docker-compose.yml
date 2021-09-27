@@ -67,8 +67,10 @@ services:
     - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     depends_on:
       - influxdb
+      - mosquitto
     links:
       - influxdb
+      - mosquitto
     ports:
     - '8125:8125/udp'
 
