@@ -1,0 +1,15 @@
+# config file version
+apiVersion: 1
+
+datasources:
+  - type: influxdb
+    name: InfluxDB
+    url: $INFLUX_URL
+    user: $INFLUXDB_ADMIN_USER
+    orgId: 1
+    uid: "1234"
+    version: 1
+    database: $INFLUXDB_DB
+    editable: false
+    secureJsonData:
+      password: $INFLUXDB_ADMIN_PASSWORD
