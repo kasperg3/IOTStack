@@ -55,13 +55,14 @@ services:
     ports:
       - '8086:8086'
     volumes:
-      - ./:/imports
+      - ./imports:/imports
       - influxdb-storage:/var/lib/influxdb
 
   
   telegraf:
     container_name: telegraf
     image: telegraf:1.20.0
+    env_file: configuration.env
     volumes:
     - ./telegraf/etc/telegraf.conf:/etc/telegraf/telegraf.conf:ro
     depends_on:
@@ -72,6 +73,7 @@ services:
       - mosquitto
     ports:
     - '8125:8125/udp'
+    restart: always
 
   grafana:
     container_name: grafana
