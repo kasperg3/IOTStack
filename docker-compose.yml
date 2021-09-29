@@ -89,33 +89,6 @@ services:
       - ./grafana/provisioning/datasources/:/etc/grafana/provisioning/datasources
       - ./grafana/provisioning/dashboards/:/var/lib/grafana/dashboards/
 
-  # influxdb_cli:
-  #   links:
-  #     - influxdb
-  #   image: influxdb:2.0.7
-  #   volumes:
-  #     # Mount for influxdb data directory and configuration
-  #     - influxdb-storage:/var/lib/influxdb2
-  #   environment: 
-  #      # Use these same configurations parameters in your telegraf configuration, mytelegraf.conf.
-  #     - DOCKER_INFLUXDB_INIT_MODE=setup
-  #     - DOCKER_INFLUXDB_INIT_USERNAME=myusername
-  #     - DOCKER_INFLUXDB_INIT_PASSWORD=passwordpasswordpassword
-  #     - DOCKER_INFLUXDB_INIT_ORG=myorg
-  #     - DOCKER_INFLUXDB_INIT_BUCKET=mybucket
-  #     - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=mytoken
-  #   entrypoint: ["./entrypoint.sh"]
-  #   restart: on-failure:10
-  #   depends_on:
-  #     - influxdb
-
-  # portainer:
-  #   container_name: portainer
-  #   image: portainer/portainer:alpine
-  #   ports:
-  #     - '1888:1888'
-
-
 volumes:
   node-red-data:
   influxdb-storage:
